@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="WARN">
+
+    <loggers>
+        <root level="info">
+            <appender-ref ref="ExceptionFile" level="error"/>
+            <appender-ref ref="Console" level="error"/>
+        </root>
+        <logger name="ru.sd.web.controllers.LoginController" level="debug">
+            <appender-ref ref="Console" level="debug"/>
+            <appender-ref ref="ExecutionLogFile" level="warn"/>
+        </logger>
+    </loggers>
+
+    <appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout
+                    pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=blue, DEBUG=green, TRACE=white}"/>
+        </Console>
+
+        <File name="ExecutionLogFile" fileName="logs/executionLogs.log" append="false">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+
+        <File name="ExceptionFile" fileName="logs/exceptions.log">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            <Filters>
+                <ThresholdFilter level="fatal" onMatch="NEUTRAL" onMismatch="NEUTRAL"/>
+            </Filters>
+        </File>
+
+    </appenders>
+
+
+</configuration>
