@@ -4,12 +4,13 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                            http://www.springframework.org/schema/beans/spring-beans.xsd
-                            http://www.springframework.org/schema/mvc
-                            http://www.springframework.org/schema/mvc/spring-mvc.xsd
-                            http://www.springframework.org/schema/context
-                            http://www.springframework.org/schema/context/spring-context.xsd">
-    <context:component-scan base-package="ru.sd"/>
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/mvc
+                           http://www.springframework.org/schema/mvc/spring-mvc.xsd
+                           http://www.springframework.org/schema/context
+                           http://www.springframework.org/schema/context/spring-context.xsd ">
+    <context:component-scan base-package="ru.sd.web"/>
+    <mvc:resources mapping="/**" location="classpath:images"/>
     <mvc:annotation-driven/>
     <!--    <mvc:default-servlet-handler/>-->
 
@@ -48,4 +49,11 @@
         <!-- чтобы шаблоны автоматически обновлялись при их изменении.                       -->
         <property name="cacheable" value="true"/>
     </bean>
+    <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
+        <property name="defaultThemeName" value="bright" />
+<!--        <property name="cookieName" value="my-theme-cookie" />-->
+    </bean>
+
+<!--        <mvc:view-controller path="/books/shelf" view-name="book_shelf"/>-->
+
 </beans>

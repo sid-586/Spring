@@ -1,6 +1,6 @@
-<html lang="en">
+<html lang="en" xmlns:="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>My book shelf</title>
+    <title>Book shelf login</title>
     <meta charset="UTF-8">
     <style>
         #login_form {
@@ -11,17 +11,25 @@
         }
 
         .login_item {
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
+
     </style>
 </head>
 <body>
 <div id="login_form">
-    <input class="login_item" type="text" placeholder="Enter username">
-    <br>
-    <input class="login_item" type="text" placeholder="Password">
-    <br>
-    <input class="login_item" type="submit" value="login">
+    <form method="post" th:action="@{/login/auth}" th:object="${loginForm}">
+        <img class="login_item" th:src="@{/images/book_logo.png}" alt="logo">
+        <br>
+        <input class="login_item" type="text" placeholder="Enter username" th:field="*{username}">
+        <br>
+        <input class="login_item" type="password" placeholder="Password" th:field="*{password}">
+        <br>
+        <input class="login_item" type="submit" value="login">
+    </form>
+    <form method="post" th:action="@{/login/registration}">
+        <input class="login_item" type="submit" value="sign_in">
+    </form>
 </div>
 </body>
 </html>

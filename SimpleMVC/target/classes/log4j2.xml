@@ -2,14 +2,11 @@
 <configuration status="WARN">
 
     <loggers>
-        <root level="info">
+        <root level="debug">
             <appender-ref ref="ExceptionFile" level="error"/>
-            <appender-ref ref="Console" level="error"/>
-        </root>
-        <logger name="ru.sd.web.controllers.LoginController" level="debug">
             <appender-ref ref="Console" level="debug"/>
             <appender-ref ref="ExecutionLogFile" level="warn"/>
-        </logger>
+        </root>
     </loggers>
 
     <appenders>
