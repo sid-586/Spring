@@ -8,5 +8,5 @@ public interface ProjectRepository<T> {
 
     void store(T item);
 
-    boolean removeItemById(T itemToRemove);
+    boolean removeItem(T itemToRemove);
 }

@@ -8,7 +8,7 @@ import ru.sd.web.dto.LoginForm;
 
 @Service
 public class LoginService {
-    private Logger logger = Logger.getLogger(LoginService.class);
+    private final Logger logger = Logger.getLogger(LoginService.class);
     private final ProjectRepository<Account> accountRepo;
 
     @Autowired
@@ -20,6 +20,7 @@ public class LoginService {
         logger.info("try auth with loginform: " + loginForm);
         boolean isAuthentificate = false;
         for (Account account : accountRepo.retreiveAll()) {
+            logger.info("Total number of accounts " + accountRepo.retreiveAll().size());
             if (loginForm.getUsername().equals(account.getUsername())
                     && loginForm.getPassword().equals(account.getPasswordOrigin())) {
                 isAuthentificate = true;

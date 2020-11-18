@@ -7,7 +7,7 @@ import ru.sd.web.dto.Book;
 import java.util.List;
 
 @Service
-public class  BookService {
+public class BookService {
     private final ProjectRepository<Book> bookRepo;
 
     @Autowired
@@ -23,7 +23,19 @@ public class  BookService {
         bookRepo.store(book);
     }
 
-    public boolean removeBookById(Book bookToRemove) {
-        return bookRepo.removeItemById(bookToRemove);
+    public boolean removeBook(Book bookToRemove) {
+        return bookRepo.removeItem(bookToRemove);
+    }
+
+    public void setFilter(Book bookToFilter) {
+        ((BookRepository) bookRepo).setFilterBook(bookToFilter);
+    }
+
+    public List<Book> getBookFilter() {
+        return ((BookRepository) bookRepo).getFilterBooks();
+    }
+
+    public void clearFilter() {
+        ((BookRepository) bookRepo).clearFilter();
     }
 }

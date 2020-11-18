@@ -9,8 +9,8 @@ import java.util.List;
 
 @Repository
 public class AccountRepository implements ProjectRepository<Account> {
-    private Logger logger = Logger.getLogger(AccountRepository.class);
-    private List<Account> accountList = new ArrayList<>();
+    private final Logger logger = Logger.getLogger(AccountRepository.class);
+    private final List<Account> accountList = new ArrayList<>();
     private boolean isSignedIn;
 
     @Override
@@ -25,20 +25,21 @@ public class AccountRepository implements ProjectRepository<Account> {
                 account.getPasswordOrigin().length() > 0 &&
                 account.getPasswordConfirm().length() > 0 &&
                 account.getPasswordOrigin().equals(account.getPasswordConfirm())) {
-            for (Account acc: retreiveAll()) {
-                if(acc.getUsername().equals(account.getUsername()))
+            for (Account acc : retreiveAll()) {
+                if (acc.getUsername().equals(account.getUsername())) {
                     logger.info("This username is already busy");
                     return;
+                }
             }
             logger.info("check confirm password");
             isSignedIn = accountList.add(account);
         } else isSignedIn = false;
-        logger.debug(isSignedIn);
+        logger.debug(isSignedIn + " accountList.size " + accountList.size());
         account.setSignedIn(isSignedIn);
     }
 
     @Override
-    public boolean removeItemById(Account itemToRemove) {
+    public boolean removeItem(Account itemToRemove) {
         for (Account acc : retreiveAll()) {
             if (acc.equals(itemToRemove)) {
                 accountList.remove(acc);

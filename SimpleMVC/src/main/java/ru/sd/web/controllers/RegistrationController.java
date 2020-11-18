@@ -24,7 +24,7 @@ public class RegistrationController {
 
     @GetMapping
     public String registration(Model model) {
-        logger.info("Input registration data");
+        logger.info("Input registration form");
         Account account = new Account();
         model.addAttribute("account", account);
         logger.debug("got regform");
@@ -34,7 +34,7 @@ public class RegistrationController {
     @PostMapping(value = "/sign_in")
     public String registrate(Account account) {
         logger.debug("input into registration");
-        if(loginService.registrate(account)) {
+        if (loginService.registrate(account)) {
             logger.info("New account was created " + account.toString());
             return "redirect:/books/shelf";
         } else {

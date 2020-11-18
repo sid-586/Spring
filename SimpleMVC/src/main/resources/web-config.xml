@@ -50,10 +50,10 @@
         <property name="cacheable" value="true"/>
     </bean>
     <bean id="themeResolver" class="org.springframework.web.servlet.theme.FixedThemeResolver">
-        <property name="defaultThemeName" value="bright" />
-<!--        <property name="cookieName" value="my-theme-cookie" />-->
+        <property name="defaultThemeName" value="bright"/>
+        <!--        <property name="cookieName" value="my-theme-cookie" />-->
     </bean>
 
-<!--        <mvc:view-controller path="/books/shelf" view-name="book_shelf"/>-->
+    <!--        <mvc:view-controller path="/books/shelf" view-name="book_shelf"/>-->
 
 </beans>

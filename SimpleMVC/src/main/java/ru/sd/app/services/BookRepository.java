@@ -1,21 +1,52 @@
 package ru.sd.app.services;
 
+import lombok.Getter;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import ru.sd.web.dto.Book;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@Getter
 @Repository
 public class BookRepository implements ProjectRepository<Book> {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
     private final List<Book> repo = new ArrayList<>();
+    private final List<Book> filterBooks = new ArrayList<>();
+    private List<Book> filteredBookList = new ArrayList<>();
 
     @Override
     public List<Book> retreiveAll() {
-        return new ArrayList<>(repo);
+
+        if (filterBooks.isEmpty()) {
+            logger.debug("Repo size " + repo.size());
+            return new ArrayList<>(repo);
+        } else {
+            if (filteredBookList.isEmpty()) {
+
+                for (Book filterBook : filterBooks) {
+                    logger.info("Filtration by book " + filterBook + " repo size " + repo.size());
+                    filteredBookList.addAll(repo
+                            .stream()
+                            .filter(f -> checkFillAndEqualFields(f, filterBook))
+                            .distinct()
+                            .collect(Collectors.toList()));
+                }
+            } else {
+                for (Book filterBook : filterBooks) {
+                    logger.info("Filtration by book " + filterBook + " repo size " + repo.size());
+                    filteredBookList = filteredBookList
+                            .stream()
+                            .filter(f -> checkFillAndEqualFields(f, filterBook))
+                            .distinct()
+                            .collect(Collectors.toList());
+                }
+            }
+            return filteredBookList;
+        }
     }
 
     @Override
@@ -28,17 +59,14 @@ public class BookRepository implements ProjectRepository<Book> {
     }
 
     @Override
-    public boolean removeItemById(Book bookToRemove) {
+    public boolean removeItem(Book bookToRemove) {
         List<Book> booksToRemove = new ArrayList<>();
         if (checkEmptyFields(bookToRemove) || bookToRemove.getId() != null) {
 
             logger.info("checkEmptyFields" + bookToRemove.toString());
             for (Book book : retreiveAll()) {
 
-                if ((bookToRemove.getId() == null || bookToRemove.getId().equals(book.getId()))
-                        && (bookToRemove.getAuthor().isEmpty() || bookToRemove.getAuthor().equals(book.getAuthor()))
-                        && (bookToRemove.getTitle().isEmpty() || bookToRemove.getTitle().equals(book.getTitle()))
-                        && (bookToRemove.getSize() == null || bookToRemove.getSize().equals(book.getSize()))) {
+                if (checkFillAndEqualFields(book, bookToRemove)) {
                     logger.info("remove book: " + book);
                     booksToRemove.add(book);
                 }
@@ -51,5 +79,25 @@ public class BookRepository implements ProjectRepository<Book> {
         return !book.getAuthor().isEmpty() ||
                 !book.getTitle().isEmpty() ||
                 book.getSize() != null;
+    }
+
+    private boolean checkFillAndEqualFields(Book bookFromRepo,
+                                            Book bookFromUser) {
+        return (bookFromUser.getId() == null || bookFromUser.getId().equals(bookFromRepo.getId()))
+                && (bookFromUser.getAuthor().isEmpty() || bookFromUser.getAuthor().equalsIgnoreCase(bookFromRepo.getAuthor()))
+                && (bookFromUser.getTitle().isEmpty() || bookFromUser.getTitle().equalsIgnoreCase(bookFromRepo.getTitle()))
+                && (bookFromUser.getSize() == null || bookFromUser.getSize().equals(bookFromRepo.getSize()));
+    }
+
+    public void setFilterBook(Book bookToFilter) {
+        if (checkEmptyFields(bookToFilter)) {
+            logger.info("setting filterBook " + bookToFilter);
+            filterBooks.add(bookToFilter);
+        }
+    }
+
+    public void clearFilter() {
+        logger.info("Clear all filters");
+        filterBooks.clear();
     }
 }

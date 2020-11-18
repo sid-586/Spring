@@ -15,6 +15,12 @@
             left: 20%;
             top: 15%;
             transform: translate(-50%, -50%);
+            navbutton_background_color: fuchsia;
+        }
+
+        #logout:hover {
+            border: 2px solid #F0F;
+            padding: 1px;
         }
 
         #books {
@@ -22,16 +28,25 @@
             border-collapse: collapse;
         }
 
+        #filter {
+            width: 50%;
+            border-collapse: collapse;
+        }
+
         table {
             margin: 25px;
+            table-border-color-dark: brown;
         }
 
         th {
             text-align: left;
+            color: darkgreen;
         }
 
         tr, td {
             border-bottom: 2px solid #ddd;
+            color: blue;
+            border-bottom-color: darkmagenta;
         }
     </style>
 </head>
@@ -50,7 +65,7 @@
                     <input type="text" placeholder="size (pages)" th:field="*{size}">
                 </td>
                 <td>
-                    <input type="submit" value="save">
+                    <input type="submit" value="Save">
                 </td>
             </tr>
         </table>
@@ -89,8 +104,25 @@
                     <input type="text" placeholder="size (pages)" th:field="*{size}">
                 </td>
                 <td>
-                    <input type="submit" value="remove">
+                    <input type="submit" value="Remove">
                 </td>
+            </tr>
+        </table>
+    </form>
+    <form method="post" th:action="@{/books/clear}">
+        <table id="filter">
+            <tr>
+                <th>author</th>
+                <th>title</th>
+                <th>size</th>
+                <td>
+                    <input type="submit" value="Clear all filters">
+                </td>
+            </tr>
+            <tr th:each="book : ${filterList}">
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.size}"></td>
             </tr>
         </table>
     </form>
