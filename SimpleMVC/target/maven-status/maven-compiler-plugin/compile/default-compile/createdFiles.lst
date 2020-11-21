@@ -7,3 +7,4 @@ ru/sd/web/controllers/RegistrationController.class
 ru/sd/web/dto/Account.class
 ru/sd/app/services/BookRepository.class
 ru/sd/app/services/ProjectRepository.class
+ru/sd/app/services/BookIdProvider.class

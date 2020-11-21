@@ -1,11 +1,13 @@
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/AccountRepository.java
-/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/ProjectRepository.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/LoginService.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/dto/LoginForm.java
-/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/controllers/RegistrationController.java
+/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/BookIdProvider.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/BookService.java
-/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/dto/Account.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/controllers/BookShelfController.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/controllers/LoginController.java
+/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/ProjectRepository.java
+/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/controllers/RegistrationController.java
+/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/dto/Account.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/app/services/BookRepository.java
+/Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/WebAppInitializer.java
 /Users/dmitrijsidelnikov/Library/Mobile Documents/com~apple~CloudDocs/Java/Spring/Spring/SimpleMVC/src/main/java/ru/sd/web/dto/Book.java

@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.sd.app.services.BookService;
 import ru.sd.app.services.LoginService;
 import ru.sd.web.dto.LoginForm;
 
@@ -34,6 +35,7 @@ public class LoginController {
     public String authentificate(LoginForm loginForm) {
         if (loginService.authentificate(loginForm)) {
             logger.info("Authorization was successful " + loginForm.toString());
+
             return "redirect:/books/shelf";
         } else {
             logger.info("Authorization was failed " + loginForm.toString());

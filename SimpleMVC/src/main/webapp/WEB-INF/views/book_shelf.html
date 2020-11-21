@@ -119,10 +119,10 @@
                     <input type="submit" value="Clear all filters">
                 </td>
             </tr>
-            <tr th:each="book : ${filterList}">
-                <td th:text="${book.author}"></td>
-                <td th:text="${book.title}"></td>
-                <td th:text="${book.size}"></td>
+            <tr th:object="${filterBook}">
+                <td th:text="${filterBook.author}"></td>
+                <td th:text="${filterBook.title}"></td>
+                <td th:text="${filterBook.size}"></td>
             </tr>
         </table>
     </form>

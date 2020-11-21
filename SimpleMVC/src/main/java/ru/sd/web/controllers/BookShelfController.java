@@ -26,8 +26,8 @@ public class BookShelfController {
     public String books(Model model) {
         logger.info("got book");
         model.addAttribute("book", new Book());
+        model.addAttribute("filterBook", bookService.getFilter());
         model.addAttribute("booklist", bookService.getAllBooks());
-        model.addAttribute("filterList", bookService.getBookFilter());
         return "book_shelf";
     }
 
@@ -64,6 +64,7 @@ public class BookShelfController {
     @PostMapping("/logout")
     public String logout() {
         logger.info("Logout");
+        bookService.clearFilter();
         return "redirect:/login";
     }
 }
