@@ -1,0 +1,54 @@
+<html lang="en" xmlns:="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Registration form</title>
+    <style>
+        #sign_in_form {
+            position: absolute;
+            left: 50%;
+            top: 20%;
+            transform: translate(-50%, -50%);
+        }
+
+        .sign_in_item {
+            margin-bottom: 20px;
+        }
+
+        table {
+            margin: 25px;
+        }
+
+        th {
+            text-align: left;
+        }
+
+        tr, td {
+            border-bottom: 10px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+<div id="sign_in_form">
+    <form method="post" th:action="@{/login/registration/sign_in}" th:object="${account}">
+        <table>
+            <tr>
+                <td>
+                    <input class="sign_in_item" type="text" placeholder="Enter username" th:field="*{username}">
+                </td>
+                <td>
+                    <input class="sign_in_item" type="password" placeholder="Enter your password"
+                           th:field="*{passwordOrigin}">
+                </td>
+                <td>
+                    <input class="sign_in_item" type="password" placeholder="Confirm your password"
+                           th:field="*{passwordConfirm}">
+                </td>
+                <td>
+                    <input class="sign_in_item" type="submit" value="sign_in">
+                </td>
+            </tr>
+        </table>
+    </form>
+</div>
+</body>
+</html>

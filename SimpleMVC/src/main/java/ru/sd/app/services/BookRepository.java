@@ -43,7 +43,7 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
             logger.info("checkEmptyFields" + bookToRemove.toString());
             for (Book book : retreiveAll()) {
 
-                if (checkFillAndEqualFields(book)) {
+                if (checkFillAndEqualFields(book, bookToRemove)) {
                     logger.info("remove book: " + book);
                     booksToRemove.add(book);
                 }
@@ -58,10 +58,11 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
                 book.getSize() != null;
     }
 
-    private boolean checkFillAndEqualFields(Book book) {
-        return (filter.getAuthor().isEmpty() || filter.getAuthor().equalsIgnoreCase(book.getAuthor()))
-                && (filter.getTitle().isEmpty() || filter.getTitle().equalsIgnoreCase(book.getTitle()))
-                && (filter.getSize() == null || filter.getSize().equals(book.getSize()));
+    private boolean checkFillAndEqualFields(Book bookFromRepo,
+                                            Book bookFromUser ) {
+        return (bookFromUser.getAuthor().isEmpty() || bookFromUser.getAuthor().equalsIgnoreCase(bookFromRepo.getAuthor()))
+                && (bookFromUser.getTitle().isEmpty() || bookFromUser.getTitle().equalsIgnoreCase(bookFromRepo.getTitle()))
+                && (bookFromUser.getSize() == null || bookFromUser.getSize().equals(bookFromRepo.getSize()));
     }
 
     public void setFilterBook(Book bookToFilter) {
@@ -88,7 +89,7 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
             logger.info("Filtration by book " + filter + " repo size " + repo.size());
             return retreiveAll()
                     .stream()
-                    .filter(this::checkFillAndEqualFields)
+                    .filter(f -> checkFillAndEqualFields(f, filter))
                     .collect(Collectors.toList());
         }
     }
