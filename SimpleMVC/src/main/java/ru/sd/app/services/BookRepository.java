@@ -59,10 +59,14 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
     }
 
     private boolean checkFillAndEqualFields(Book bookFromRepo,
-                                            Book bookFromUser ) {
-        return (bookFromUser.getAuthor().isEmpty() || bookFromUser.getAuthor().equalsIgnoreCase(bookFromRepo.getAuthor()))
-                && (bookFromUser.getTitle().isEmpty() || bookFromUser.getTitle().equalsIgnoreCase(bookFromRepo.getTitle()))
-                && (bookFromUser.getSize() == null || bookFromUser.getSize().equals(bookFromRepo.getSize()));
+                                            Book bookFromUser) {
+        if (bookFromUser.getId() == null) {
+            return ((bookFromUser.getAuthor().isEmpty() ||
+                    bookFromRepo.getAuthor().matches(".*" + bookFromUser.getAuthor() + ".*"))
+                    && (bookFromUser.getTitle().isEmpty() ||
+                    bookFromRepo.getTitle().matches(".*" + bookFromUser.getTitle() + ".*"))
+                    && (bookFromUser.getSize() == null || bookFromUser.getSize().equals(bookFromRepo.getSize())));
+        } else return bookFromUser.getId().equals(bookFromRepo.getId());
     }
 
     public void setFilterBook(Book bookToFilter) {
@@ -82,16 +86,11 @@ public class BookRepository implements ProjectRepository<Book>, ApplicationConte
 
     public List<Book> getFilteredListBook() {
 
-        if (filter.getAuthor() == null && filter.getTitle() == null && filter.getSize() == null) {
-            logger.info("Repo size " + repo.size());
-            return retreiveAll();
-        } else {
-            logger.info("Filtration by book " + filter + " repo size " + repo.size());
-            return retreiveAll()
-                    .stream()
-                    .filter(f -> checkFillAndEqualFields(f, filter))
-                    .collect(Collectors.toList());
-        }
+        logger.info("Filtration by book " + filter + " repo size " + repo.size());
+        return retreiveAll()
+                .stream()
+                .filter(f -> checkFillAndEqualFields(f, filter))
+                .collect(Collectors.toList());
     }
 
     public void clearFilter() {
