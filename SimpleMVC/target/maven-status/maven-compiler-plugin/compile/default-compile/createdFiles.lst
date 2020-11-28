@@ -1,10 +1,10 @@
 ru/sd/web/controllers/LoginController.class
-ru/sd/app/services/AccountRepository.class
 ru/sd/web/dto/Book.class
-ru/sd/web/controllers/BookShelfController.class
+ru/sd/app/services/LoginService.class
 ru/sd/app/services/BookService.class
 ru/sd/web/controllers/RegistrationController.class
 ru/sd/web/dto/Account.class
-ru/sd/app/services/BookRepository.class
+ru/sd/web/dto/LoginForm.class
 ru/sd/app/services/ProjectRepository.class
+ru/sd/app/exceptions/BookShelfLoginException.class
 ru/sd/app/services/BookIdProvider.class

@@ -4,6 +4,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.sd.web.dto.Book;
+import ru.sd.web.dto.BookToFilter;
+import ru.sd.web.dto.BookToRemove;
 
 import java.util.List;
 
@@ -29,13 +31,17 @@ public class BookService {
         bookRepo.store(book);
     }
 
-    public boolean removeBook(Book bookToRemove) {
-        return bookRepo.removeItem(bookToRemove);
+    public boolean removeBook(BookToRemove bookToRemove) {
+        Book book = new Book(bookToRemove.getId(), bookToRemove.getAuthor(),
+                bookToRemove.getTitle(), bookToRemove.getSize());
+        return bookRepo.removeItem(book);
     }
 
-    public void setFilter(Book bookToFilter) {
+    public void setFilter(BookToFilter bookToFilter) {
         hasFilter = true;
-        ((BookRepository) bookRepo).setFilterBook(bookToFilter);
+        Book book = new Book(null, bookToFilter.getAuthor(),
+                bookToFilter.getTitle(), bookToFilter.getSize());
+        ((BookRepository) bookRepo).setFilterBook(book);
     }
 
     public Book getFilter() {

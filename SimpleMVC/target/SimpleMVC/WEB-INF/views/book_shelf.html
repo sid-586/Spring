@@ -48,6 +48,10 @@
             color: blue;
             border-bottom-color: darkmagenta;
         }
+
+        p {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -69,8 +73,11 @@
                 </td>
             </tr>
         </table>
+        <td th:if="${#fields.hasErrors()}">
+            <p>Wrong format or empty fields</p>
+        </td>
     </form>
-    <form method="post" th:action="@{/books/filter}" th:object="${book}">
+    <form method="post" th:action="@{/books/filter}" th:object="${bookToFilter}">
         <table>
             <tr>
                 <td>
@@ -85,10 +92,13 @@
                 <td>
                     <input type="submit" value="Filter">
                 </td>
+                <td th:if="${#fields.hasErrors('size')}">
+                    <p>There is wrong size</p>
+                </td>
             </tr>
         </table>
     </form>
-    <form method="post" th:action="@{/books/remove}" th:object="${book}">
+    <form method="post" th:action="@{/books/remove}" th:object="${bookToRemove}">
         <table>
             <tr>
                 <td>
@@ -107,6 +117,12 @@
                     <input type="submit" value="Remove">
                 </td>
             </tr>
+            <td th:if="${#fields.hasErrors('id')}">
+                <p>There is wrong value in the ID field</p>
+            </td>
+            <td th:if="${#fields.hasErrors('size')}">
+                <p>There is wrong size</p>
+            </td>
         </table>
     </form>
     <form method="post" th:action="@{/books/clear}">
@@ -116,7 +132,7 @@
                 <th>title</th>
                 <th>size</th>
                 <td>
-                    <input type="submit" value="Clear all filters">
+                    <input type="submit" value="Clear all fields">
                 </td>
             </tr>
             <tr th:object="${filterBook}">
