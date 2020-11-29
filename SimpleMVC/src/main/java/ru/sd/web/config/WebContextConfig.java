@@ -50,5 +50,4 @@ public class WebContextConfig implements WebMvcConfigurer {
 
         return viewResolver;
     }
-
 }

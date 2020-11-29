@@ -16,6 +16,7 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/login")
+
 public class LoginController {
     private final Logger logger = Logger.getLogger(LoginController.class);
     private final LoginService loginService;

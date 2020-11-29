@@ -10,8 +10,13 @@
         <module name="SimpleMVC" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="SimpleMVC" target="8" />
+    <bytecodeTargetLevel target="11">
+      <module name="SimpleMVC" target="11" />
     </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="SimpleMVC" options="" />
+    </option>
   </component>
 </project>

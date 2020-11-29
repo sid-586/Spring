@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration status="WARN">
 
+
     <loggers>
         <root level="debug">
             <appender-ref ref="ExceptionFile" level="error"/>
-            <appender-ref ref="Console" level="info"/>
+            <appender-ref ref="Console" level="debug"/>
             <appender-ref ref="ExecutionLogFile" level="warn"/>
         </root>
     </loggers>

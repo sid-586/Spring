@@ -4,7 +4,7 @@
 
 <web-app>
     <display-name>Archetype Created Web Application</display-name>
-<!--    <absolute-ordering/>       Если раскомментить - страницы не отображаются-->
+    <!--    <absolute-ordering/>       Если раскомментить - страницы не отображаются-->
     <error-page>
         <error-code>404</error-code>
         <location>/404</location>
