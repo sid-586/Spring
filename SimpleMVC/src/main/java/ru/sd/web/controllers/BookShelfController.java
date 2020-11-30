@@ -20,8 +20,8 @@ import javax.validation.Valid;
 public class BookShelfController {
     private final Logger logger = Logger.getLogger(BookShelfController.class);
     private final BookService bookService;
-    private static final String BASE_PAGE = "redirect:/books/shelf";
     private static final String BASIC_VIEW = "book_shelf";
+    private static final String BASE_PAGE = "redirect:/books/shelf";
 
     @Autowired
     public BookShelfController(BookService bookService) {
@@ -33,20 +33,22 @@ public class BookShelfController {
         logger.info("got book");
         model.addAttribute("book", new Book());
         model.addAttribute("bookToFilter", new BookToFilter());
-        model.addAttribute("filterBook", bookService.getFilter());
         model.addAttribute("bookToRemove", new BookToRemove());
+        model.addAttribute("filterBook", bookService.getFilter());
         model.addAttribute("booklist", bookService.getAllBooks());
 
         return BASIC_VIEW;
     }
 
     @PostMapping("/save")
-    public String saveBook(@Valid Book book, BindingResult bindingResult, Model model) {
+    public String saveBook(@Valid Book book, BindingResult bindingResult,
+                           Model model) {
         if (bindingResult.hasErrors()) {
+            logger.info("saveBook  hasErrors");
             model.addAttribute("book", book);
             model.addAttribute("bookToFilter", new BookToFilter());
-            model.addAttribute("filterBook", bookService.getFilter());
             model.addAttribute("bookToRemove", new BookToRemove());
+            model.addAttribute("filterBook", bookService.getFilter());
             model.addAttribute("booklist", bookService.getAllBooks());
 
             return BASIC_VIEW;
@@ -59,13 +61,14 @@ public class BookShelfController {
 
     @PostMapping("/remove")
     public String removeBook(@Valid BookToRemove bookToRemove,
-                             BindingResult bindingResult, Model model) {
+                             BindingResult bindingResult,
+                             Model model) {
         if (bindingResult.hasErrors()) {
-            logger.warn("bindingResult.hasErrors");
+            logger.info("removeBook  hasErrors");
             model.addAttribute("book", new Book());
             model.addAttribute("bookToFilter", new BookToFilter());
-            model.addAttribute("filterBook", bookService.getFilter());
             model.addAttribute("bookToRemove", bookToRemove);
+            model.addAttribute("filterBook", bookService.getFilter());
             model.addAttribute("booklist", bookService.getAllBooks());
 
             return BASIC_VIEW;
@@ -79,13 +82,14 @@ public class BookShelfController {
 
     @PostMapping("/filter")
     public String setFilterBook(@Valid BookToFilter bookToFilter,
-                                BindingResult bindingResult, Model model) {
+                                BindingResult bindingResult,
+                                Model model) {
         if (bindingResult.hasErrors()) {
-            logger.warn("bindingResult.hasErrors");
+            logger.info("filterBook  hasErrors");
             model.addAttribute("book", new Book());
             model.addAttribute("bookToFilter", bookToFilter);
-            model.addAttribute("filterBook", bookService.getFilter());
             model.addAttribute("bookToRemove", new BookToRemove());
+            model.addAttribute("filterBook", bookService.getFilter());
             model.addAttribute("booklist", bookService.getAllBooks());
 
             return BASIC_VIEW;

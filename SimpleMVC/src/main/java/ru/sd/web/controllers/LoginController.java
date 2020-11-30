@@ -16,7 +16,6 @@ import javax.validation.Valid;
 
 @Controller
 @RequestMapping(value = "/login")
-
 public class LoginController {
     private final Logger logger = Logger.getLogger(LoginController.class);
     private final LoginService loginService;
@@ -38,18 +37,20 @@ public class LoginController {
     @PostMapping(value = "/auth")
     public String authentificate(@Valid LoginForm loginForm,
                                  BindingResult bindingResult, Model model) throws BookShelfLoginException {
+
         if (bindingResult.hasErrors()) {
             model.addAttribute("loginForm", loginForm);
 
             return "login_page";
-        }
-        if (loginService.authentificate(loginForm)) {
-            logger.info("Authorization was successful " + loginForm.toString());
-
-            return "redirect:/books/shelf";
         } else {
-            logger.info("Authorization was failed " + loginForm.toString());
-            throw new BookShelfLoginException("INVALID username or password");
+            if (loginService.authentificate(loginForm)) {
+                logger.info("Authorization was successful " + loginForm.toString());
+
+                return "redirect:/books/shelf";
+            } else {
+                logger.info("Authorization was failed " + loginForm.toString());
+                throw new BookShelfLoginException("INVALID username or password");
+            }
         }
     }
 

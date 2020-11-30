@@ -32,8 +32,10 @@ public class BookService {
     }
 
     public boolean removeBook(BookToRemove bookToRemove) {
-        Book book = new Book(bookToRemove.getId(), bookToRemove.getAuthor(),
-                bookToRemove.getTitle(), bookToRemove.getSize());
+        Book book = new Book(bookToRemove.getId(),
+                bookToRemove.getAuthor(),
+                bookToRemove.getTitle(),
+                bookToRemove.getSize());
         return bookRepo.removeItem(book);
     }
 

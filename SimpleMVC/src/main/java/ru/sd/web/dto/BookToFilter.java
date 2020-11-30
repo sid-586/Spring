@@ -17,8 +17,8 @@ public class BookToFilter {
 
     @Override
     public String toString() {
-        return "BookToFilter{\"'author='" + author +
-                '\'' + ", title='" + title +
-                '\'' + ", size=" + size + '}';
+        return "BookToFilter: {\"Author " + author + " Title " + title + " " +
+                "size" +
+                " " + size + " \"}";
     }
 }

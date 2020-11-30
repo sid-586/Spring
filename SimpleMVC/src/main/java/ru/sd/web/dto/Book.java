@@ -18,8 +18,8 @@ public class Book {
     private String author;
     @NotEmpty
     private String title;
-    @NotNull
     @Digits(integer = 4, fraction = 0)
+    @NotNull
     private Integer size;
 
     @Override

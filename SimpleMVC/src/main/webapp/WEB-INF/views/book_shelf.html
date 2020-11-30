@@ -48,9 +48,9 @@
             color: blue;
             border-bottom-color: darkmagenta;
         }
-
         p {
             color: red;
+            font-size: small;
         }
     </style>
 </head>
@@ -71,11 +71,11 @@
                 <td>
                     <input type="submit" value="Save">
                 </td>
+                <td th:if="${#fields.hasErrors()}">
+                    <p>Wrong format or empty fields</p>
+                </td>
             </tr>
         </table>
-        <td th:if="${#fields.hasErrors()}">
-            <p>Wrong format or empty fields</p>
-        </td>
     </form>
     <form method="post" th:action="@{/books/filter}" th:object="${bookToFilter}">
         <table>
@@ -132,7 +132,7 @@
                 <th>title</th>
                 <th>size</th>
                 <td>
-                    <input type="submit" value="Clear all fields">
+                    <input type="submit" value="Clear all filters">
                 </td>
             </tr>
             <tr th:object="${filterBook}">

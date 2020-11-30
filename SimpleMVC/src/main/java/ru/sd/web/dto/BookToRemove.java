@@ -19,9 +19,8 @@ public class BookToRemove {
 
     @Override
     public String toString() {
-        return "BookToRemove{\"id=" +
-                id + ", author='" + author +
-                '\'' + ", title='" + title +
-                '\'' + ", size=" + size + '}';
+        return "BookToRemove: {\"Author " + author + " Title " + title + " " +
+                "size" +
+                " " + size + " \"}";
     }
 }
