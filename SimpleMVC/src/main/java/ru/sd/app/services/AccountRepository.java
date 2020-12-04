@@ -11,7 +11,6 @@ import java.util.List;
 public class AccountRepository implements ProjectRepository<Account> {
     private final Logger logger = Logger.getLogger(AccountRepository.class);
     private final List<Account> accountList = new ArrayList<>();
-    private boolean isSignedIn;
 
     @Override
     public List<Account> retreiveAll() {
@@ -20,31 +19,13 @@ public class AccountRepository implements ProjectRepository<Account> {
 
     @Override
     public void store(Account account) {
-
-        if (account.getUsername().length() > 0 &&
-                account.getPasswordOrigin().length() > 0 &&
-                account.getPasswordConfirm().length() > 0 &&
-                account.getPasswordOrigin().equals(account.getPasswordConfirm())) {
-            for (Account acc : retreiveAll()) {
-                if (acc.getUsername().equals(account.getUsername())) {
-                    logger.info("This username is already busy");
-                    return;
-                }
-            }
-            logger.info("check confirm password");
-            isSignedIn = accountList.add(account);
-        } else isSignedIn = false;
-        logger.debug(isSignedIn + " accountList.size " + accountList.size());
-        account.setSignedIn(isSignedIn);
+        accountList.add(account);
+        logger.debug("accountList.size " + accountList.size());
     }
 
     @Override
     public boolean removeItem(Account itemToRemove) {
-        for (Account acc : retreiveAll()) {
-            if (acc.equals(itemToRemove)) {
-                accountList.remove(acc);
-            }
-        }
-        return false;
+
+        return accountList.remove(itemToRemove);
     }
 }

@@ -112,6 +112,7 @@ public class BookShelfController {
     public String logout() {
         logger.info("Logout");
         bookService.clearFilter();
+
         return "redirect:/login";
     }
 }

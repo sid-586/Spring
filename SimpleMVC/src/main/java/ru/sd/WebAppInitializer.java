@@ -12,7 +12,6 @@ import ru.sd.web.config.WebContextConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 import javax.servlet.ServletContext;
-import javax.servlet.annotation.WebServlet;
 
 public class WebAppInitializer implements WebApplicationInitializer {
     private final Logger logger =

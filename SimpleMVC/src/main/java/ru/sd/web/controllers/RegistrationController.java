@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import ru.sd.app.exceptions.BookShelfLoginException;
 import ru.sd.app.services.LoginService;
 import ru.sd.web.dto.Account;
 
@@ -30,14 +31,15 @@ public class RegistrationController {
         logger.info("Input registration form");
         Account account = new Account();
         model.addAttribute("account", account);
-        logger.debug("got regform");
+        logger.info("got regform");
+
         return "registration_form";
     }
 
     @PostMapping(value = "/sign_in")
     public String registrate(@Valid Account account,
-                             BindingResult bindingResult, Model model) {
-        logger.debug("input into registration");
+                             BindingResult bindingResult, Model model) throws BookShelfLoginException {
+        logger.info("input into registration");
         if (bindingResult.hasErrors()) {
             model.addAttribute("account", account);
 
@@ -45,7 +47,7 @@ public class RegistrationController {
         }
         loginService.registrate(account);
         logger.info("New account was created " + account.toString());
-        return "redirect:/books/shelf";
 
+        return "redirect:/books/shelf";
     }
 }

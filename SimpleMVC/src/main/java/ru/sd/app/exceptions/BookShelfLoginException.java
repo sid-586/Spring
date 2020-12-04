@@ -1,6 +1,6 @@
 package ru.sd.app.exceptions;
 
-public class BookShelfLoginException extends Throwable {
+public class BookShelfLoginException extends Exception {
     private final String message;
 
     public BookShelfLoginException(String message) {

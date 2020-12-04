@@ -23,12 +23,7 @@
         }
 
         tr, td {
-            border-bottom: 1px solid #ddd;
-        }
-
-        p {
-            color: #FF00FF;
-            font-size: small;
+            border-bottom: 10px solid #ddd;
         }
 
         p {
@@ -47,7 +42,7 @@
                 </td>
                 <td>
                     <input class="sign_in_item" type="password" placeholder="Enter your password"
-                           th:field="*{passwordOrigin}">
+                           th:field="*{password}">
                 </td>
                 <td>
                     <input class="sign_in_item" type="password" placeholder="Confirm your password"
@@ -64,7 +59,7 @@
                     <p>There is an invalid username field size(Username must contain 5 or more non-Cyrillic
                         symbols)</p>
                 </td>
-                <td th:if="${#fields.hasErrors('passwordOrigin')}">
+                <td th:if="${#fields.hasErrors('password')}">
                     <p>You forgot enter password!</p>
                 </td>
                 <td th:if="${#fields.hasErrors('passwordConfirm')}">

@@ -31,27 +31,19 @@ public class LoginController {
         LoginForm loginForm = new LoginForm();
         model.addAttribute("loginForm", loginForm);
         logger.debug(loginForm.toString());
+
         return "login_page";
     }
 
     @PostMapping(value = "/auth")
     public String authentificate(@Valid LoginForm loginForm,
-                                 BindingResult bindingResult, Model model) throws BookShelfLoginException {
-
+                                 BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("loginForm", loginForm);
 
             return "login_page";
-        } else {
-            if (loginService.authentificate(loginForm)) {
-                logger.info("Authorization was successful " + loginForm.toString());
-
-                return "redirect:/books/shelf";
-            } else {
-                logger.info("Authorization was failed " + loginForm.toString());
-                throw new BookShelfLoginException("INVALID username or password");
-            }
         }
+        return "redirect:/books/shelf";
     }
 
     @PostMapping(value = "/registration")

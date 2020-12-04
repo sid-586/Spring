@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import ru.sd.app.services.BookIdProvider;
 
 @Configuration
-@ComponentScan(basePackages = "ru.sd.app.services")
+@ComponentScan(basePackages = "ru.sd.app")
 public class AppContextConfig {
 
     @Bean

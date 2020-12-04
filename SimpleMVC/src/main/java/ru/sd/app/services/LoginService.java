@@ -1,38 +1,68 @@
 package ru.sd.app.services;
 
+import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ru.sd.app.exceptions.BookShelfLoginException;
 import ru.sd.web.dto.Account;
 import ru.sd.web.dto.LoginForm;
 
 @Service
-public class LoginService {
+public class LoginService implements UserDetailsService {
     private final Logger logger = Logger.getLogger(LoginService.class);
     private final ProjectRepository<Account> accountRepo;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     public LoginService(ProjectRepository<Account> accountRepo) {
         this.accountRepo = accountRepo;
     }
 
-    public boolean authentificate(LoginForm loginForm) {
-        logger.info("try auth with loginform: " + loginForm);
-        boolean isAuthentificate = false;
-        for (Account account : accountRepo.retreiveAll()) {
-            logger.info("Total number of accounts " + accountRepo.retreiveAll().size());
-            if (loginForm.getUsername().equals(account.getUsername())
-                    && loginForm.getPassword().equals(account.getPasswordOrigin())) {
-                isAuthentificate = true;
-            }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        logger.info("Get starting loadUserByUsername");
+        Account account =
+                accountRepo.retreiveAll()
+                        .stream()
+                        .filter(f -> f.getUsername().equals(username))
+                        .findFirst()
+                        .orElse(null);
+
+        if (account == null) {
+            logger.info("!!!No such username");
+            throw new UsernameNotFoundException("No such username");
         }
-        return isAuthentificate;
+        return account;
     }
 
-    public boolean registrate(Account account) {
+    public boolean registrate(Account account) throws BookShelfLoginException {
         logger.debug("checking valid account");
-        accountRepo.store(account);
-        logger.debug(account.isSignedIn());
-        return account.isSignedIn();
+        if (account.getPassword().equals(account.getPasswordConfirm())) {
+            logger.info("check confirm password");
+            for (Account acc : accountRepo.retreiveAll()) {
+                if (acc.getUsername().equals(account.getUsername())) {
+                    logger.info("This username is already busy");
+                    throw new BookShelfLoginException("This username is already busy");
+                }
+            }
+            account.setPassword(bCryptPasswordEncoder.encode(account.getPassword()));
+            accountRepo.store(account);
+        }
+        return true;
+    }
+
+    public void removeAccount(Account account) {
+        for(Account acc: accountRepo.retreiveAll()) {
+            if(acc.equals(account)) {
+                accountRepo.removeItem(acc);
+            }
+        }
     }
 }
