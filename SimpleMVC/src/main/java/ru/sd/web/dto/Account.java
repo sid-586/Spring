@@ -19,7 +19,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Account implements UserDetails {
 
-    @Size(min = 5)
+    @Size(min = 4)
     private String username;
 
     @Size(min = 3)

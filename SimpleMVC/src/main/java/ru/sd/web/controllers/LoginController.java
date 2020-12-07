@@ -37,11 +37,17 @@ public class LoginController {
 
     @PostMapping(value = "/auth")
     public String authentificate(@Valid LoginForm loginForm,
-                                 BindingResult bindingResult, Model model) {
+                                 BindingResult bindingResult, Model model) throws BookShelfLoginException {
+        logger.info("bindingResult.hasErrors " + bindingResult.hasErrors() +
+                " " + loginForm.toString());
         if (bindingResult.hasErrors()) {
             model.addAttribute("loginForm", loginForm);
 
             return "login_page";
+        }
+        if (!loginService.findByUserName(loginForm.getUsername())) {
+            throw new BookShelfLoginException("Invalid username and/or " +
+                    "password!");
         }
         return "redirect:/books/shelf";
     }

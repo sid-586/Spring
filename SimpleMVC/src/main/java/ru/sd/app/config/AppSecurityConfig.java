@@ -10,8 +10,12 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.sd.app.services.LoginService;
+import ru.sd.web.dto.Account;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -19,6 +23,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     private final Logger logger = Logger.getLogger(AppSecurityConfig.class);
     @Autowired
     LoginService loginService;
+
+    @Autowired
+    DataSource dataSource;
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -35,8 +42,9 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         logger.info("Config http security");
+        http.headers().frameOptions().disable();
+        http.csrf().ignoringAntMatchers("/console/**");
         http
-//                .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login/registration").not().fullyAuthenticated()
                 .antMatchers(HttpMethod.POST, "/login/registration/sign_in").not().authenticated()
@@ -47,16 +55,33 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginPage("/login")
                 .loginProcessingUrl("/login/auth")
                 .defaultSuccessUrl("/books/shelf", true)
-                .failureUrl("/login")
+                .failureForwardUrl("/login/auth")
                 .and()
                 .logout().logoutUrl("/books/logout").permitAll();
     }
 
+    /*
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("Config from loginService");
         auth
                 .userDetailsService(loginService)
                 .passwordEncoder(bCryptPasswordEncoder());
+    }
+
+     */
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth
+                .jdbcAuthentication()
+                .dataSource(dataSource)
+                .usersByUsernameQuery("SELECT username,password,'true' as " +
+                        "enabled" +
+                        " FROM " +
+                        "accounts WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT username,role FROM roles " +
+                        "WHERE username = ?")
+        ;
     }
 }

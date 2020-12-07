@@ -1,5 +1,6 @@
 package ru.sd.app.services;
 
+import lombok.Getter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import java.util.List;
 public class BookService {
     private final Logger logger = Logger.getLogger(BookService.class);
     private final ProjectRepository<Book> bookRepo;
+    @Getter
+    private final Book filter = new Book();
     private boolean hasFilter;
 
     @Autowired
@@ -21,10 +24,10 @@ public class BookService {
     }
 
     public List<Book> getAllBooks() {
-        logger.info("hasFilter - " + hasFilter);
+
         if (!hasFilter)
             return bookRepo.retreiveAll();
-        else return ((BookRepository) bookRepo).getFilteredListBook();
+        else return ((BookRepository) bookRepo).getFilteredListBook(filter);
     }
 
     public void saveBook(Book book) {
@@ -41,17 +44,28 @@ public class BookService {
 
     public void setFilter(BookToFilter bookToFilter) {
         hasFilter = true;
-        Book book = new Book(null, bookToFilter.getAuthor(),
-                bookToFilter.getTitle(), bookToFilter.getSize());
-        ((BookRepository) bookRepo).setFilterBook(book);
-    }
 
-    public Book getFilter() {
-        return ((BookRepository) bookRepo).getFilter();
+        logger.info("setting filterBook " + bookToFilter);
+        if (filter.getAuthor() == null || filter.getAuthor().trim().isEmpty()) {
+            filter.setAuthor(bookToFilter.getAuthor());
+        }
+        if (filter.getTitle() == null || filter.getTitle().trim().isEmpty()) {
+            filter.setTitle(bookToFilter.getTitle());
+
+        }
+        if (filter.getSize() == null) {
+            filter.setSize(bookToFilter.getSize());
+        }
+
+        logger.info("Filter book - " + filter.toString());
     }
 
     public void clearFilter() {
         hasFilter = false;
-        ((BookRepository) bookRepo).clearFilter();
+
+        logger.info("Clear all filters");
+        filter.setAuthor(null);
+        filter.setTitle(null);
+        filter.setSize(null);
     }
 }

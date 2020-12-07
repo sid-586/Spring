@@ -3,11 +3,15 @@ package ru.sd.app.services;
 import lombok.Getter;
 import org.apache.log4j.Logger;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.sd.web.dto.Book;
 
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,87 +21,114 @@ import java.util.stream.Collectors;
 public class BookRepository implements ProjectRepository<Book>, ApplicationContextAware {
 
     private final Logger logger = Logger.getLogger(BookRepository.class);
-    private final List<Book> repo = new ArrayList<>();
-    private final Book filter = new Book();
     private ApplicationContext context;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public BookRepository(NamedParameterJdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @Override
     public List<Book> retreiveAll() {
-        return new ArrayList<>(repo);
+        List<Book> bookList = jdbcTemplate.query("SELECT * FROM books_shelf",
+                (ResultSet rs, int rowNum) -> {
+                    Book book = new Book();
+                    book.setId(rs.getInt("id"));
+                    book.setAuthor(rs.getString("author"));
+                    book.setTitle(rs.getString("title"));
+                    book.setSize(rs.getInt("size"));
+                    return book;
+                });
+        return new ArrayList<>(bookList);
     }
 
     @Override
     public void store(Book book) {
-        if (checkEmptyFields(book)) {
-            book.setId(context.getBean(BookIdProvider.class).provideId(book));
-            logger.info("store new book " + book.toString());
-            repo.add(book);
-        } else logger.info("All fields are empty");
+
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id",
+                context.getBean(BookIdProvider.class).provideId(book));
+        parameterSource.addValue("author", book.getAuthor());
+        parameterSource.addValue("title", book.getTitle());
+        parameterSource.addValue("size", book.getSize());
+        jdbcTemplate.update("INSERT INTO books_shelf(id,author,title,size) " +
+                "VALUES(:id, :author, :title, :size)", parameterSource);
+        logger.info("store new book " + book.toString());
+
     }
 
     @Override
     public boolean removeItem(Book bookToRemove) {
-        List<Book> booksToRemove = new ArrayList<>();
-        if (checkEmptyFields(bookToRemove) || bookToRemove.getId() != null) {
 
-            logger.info("checkEmptyFields" + bookToRemove.toString());
-            for (Book book : retreiveAll()) {
+        int countOfRemovedBooks = 0;
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("id", bookToRemove.getId());
+        parameterSource.addValue("author", ".*" + bookToRemove.getAuthor() + ".*");
+        parameterSource.addValue("title", ".*" + bookToRemove.getTitle() + ".*");
+        parameterSource.addValue("size", bookToRemove.getSize());
 
-                if (checkFillAndEqualFields(book, bookToRemove)) {
-                    logger.info("remove book: " + book);
-                    booksToRemove.add(book);
-                }
-            }
+        if (!bookToRemove.getAuthor().isEmpty()) {
+            countOfRemovedBooks += jdbcTemplate
+                    .update("DELETE FROM books_shelf WHERE author REGEXP " +
+                            ":author", parameterSource);
+
         }
-        return repo.removeAll(booksToRemove);
-    }
-
-    private boolean checkEmptyFields(Book book) {
-        return !book.getAuthor().isEmpty() ||
-                !book.getTitle().isEmpty() ||
-                book.getSize() != null;
-    }
-
-    private boolean checkFillAndEqualFields(Book bookFromRepo,
-                                            Book bookFromUser) {
-        if (bookFromUser.getId() == null) {
-            return ((bookFromUser.getAuthor().isEmpty() ||
-                    bookFromRepo.getAuthor().matches(".*" + bookFromUser.getAuthor() + ".*"))
-                    && (bookFromUser.getTitle().isEmpty() ||
-                    bookFromRepo.getTitle().matches(".*" + bookFromUser.getTitle() + ".*"))
-                    && (bookFromUser.getSize() == null || bookFromUser.getSize().equals(bookFromRepo.getSize())));
-        } else return bookFromUser.getId().equals(bookFromRepo.getId());
-    }
-
-    public void setFilterBook(Book bookToFilter) {
-        logger.info("setting filterBook " + bookToFilter);
-        if (filter.getAuthor() == null || filter.getAuthor().trim().isEmpty()) {
-            filter.setAuthor(bookToFilter.getAuthor());
+        if (!bookToRemove.getTitle().isEmpty()) {
+            countOfRemovedBooks += jdbcTemplate
+                    .update("DELETE FROM books_shelf WHERE title REGEXP :title", parameterSource);
         }
-        if (filter.getTitle() == null || filter.getTitle().trim().isEmpty()) {
-            logger.info("getTitle() == null");
-            filter.setTitle(bookToFilter.getTitle());
+        if (bookToRemove.getId() != null) {
+            countOfRemovedBooks += jdbcTemplate
+                    .update("DELETE FROM books_shelf WHERE id = :id",
+                            parameterSource);
         }
-        if (filter.getSize() == null) {
-            filter.setSize(bookToFilter.getSize());
+        if (bookToRemove.getSize() != null) {
+            countOfRemovedBooks += jdbcTemplate
+                    .update("DELETE FROM books_shelf WHERE size = :size",
+                            parameterSource);
         }
-        logger.info("Filter book - " + filter.toString());
+        return countOfRemovedBooks != 0;
     }
 
-    public List<Book> getFilteredListBook() {
+    public List<Book> getFilteredListBook(Book filter) {
 
-        logger.info("Filtration by book " + filter + " repo size " + repo.size());
-        return retreiveAll()
-                .stream()
-                .filter(f -> checkFillAndEqualFields(f, filter))
-                .collect(Collectors.toList());
-    }
+        logger.info("Filtration by book " + filter);
+        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+        parameterSource.addValue("author", ".*" + filter.getAuthor() + ".*");
+        parameterSource.addValue("title", ".*" + filter.getTitle() + ".*");
+        if (filter.getSize() != null) {
+            parameterSource.addValue("size", filter.getSize());
 
-    public void clearFilter() {
-        logger.info("Clear all filters");
-        filter.setAuthor(null);
-        filter.setTitle(null);
-        filter.setSize(null);
+            return jdbcTemplate.query("SELECT id,author," +
+                            "title,size FROM books_shelf " +
+                            "WHERE (author REGEXP :author) " +
+                            "AND (title REGEXP :title) " +
+                            "AND (size = :size)",
+                    parameterSource,
+                    (ResultSet rs, int numRow) -> {
+                        Book book = new Book();
+                        book.setId(rs.getInt("id"));
+                        book.setAuthor(rs.getString("author"));
+                        book.setTitle(rs.getString("title"));
+                        book.setSize(rs.getInt("size"));
+                        return book;
+                    });
+        } else {
+            return jdbcTemplate.query("SELECT id,author," +
+                            "title,size FROM books_shelf " +
+                            "WHERE (author REGEXP :author) " +
+                            "AND (title REGEXP :title)",
+                    parameterSource,
+                    (ResultSet rs, int numRow) -> {
+                        Book book = new Book();
+                        book.setId(rs.getInt("id"));
+                        book.setAuthor(rs.getString("author"));
+                        book.setTitle(rs.getString("title"));
+                        book.setSize(rs.getInt("size"));
+                        return book;
+                    });
+        }
     }
 
     @Override

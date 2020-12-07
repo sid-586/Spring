@@ -109,6 +109,16 @@
     </dependency>
     <!--        security-->
     <!--        database-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>5.2.9.RELEASE</version>
+    </dependency>
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.200</version>
+    </dependency>
 
     <!--        database-->
   </dependencies>

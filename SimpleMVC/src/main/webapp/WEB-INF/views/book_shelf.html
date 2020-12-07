@@ -116,6 +116,9 @@
                 <td>
                     <input type="submit" value="Remove">
                 </td>
+                <td th:if="${#object}">
+                    <p>There is wrong size</p>
+                </td>
             </tr>
             <td th:if="${#fields.hasErrors('id')}">
                 <p>There is wrong value in the ID field</p>

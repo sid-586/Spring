@@ -1,7 +1,7 @@
 package ru.sd;
 
 import org.apache.log4j.Logger;
-//import org.h2.server.web.WebServlet;
+import org.h2.server.web.WebServlet;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
@@ -39,10 +39,10 @@ public class WebAppInitializer implements WebApplicationInitializer {
         dispatcher.addMapping("/");
         logger.info("dispatcher ready");
 
-//        ServletRegistration.Dynamic dbServlet = servletContext.addServlet("h2" +
-//                "-console", new WebServlet());
-//        dbServlet.setLoadOnStartup(2);
-//        dbServlet.addMapping("/console/*");
-//        logger.info("H2 ready");
+        ServletRegistration.Dynamic dbServlet = servletContext.addServlet("h2" +
+                "-console", new WebServlet());
+        dbServlet.setLoadOnStartup(2);
+        dbServlet.addMapping("/console/*");
+        logger.info("H2 ready");
     }
 }

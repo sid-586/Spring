@@ -28,18 +28,17 @@ public class LoginService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         logger.info("Get starting loadUserByUsername");
-        Account account =
-                accountRepo.retreiveAll()
-                        .stream()
-                        .filter(f -> f.getUsername().equals(username))
-                        .findFirst()
-                        .orElse(null);
-
-        if (account == null) {
+        if (findByUserName(username)) {
+            return accountRepo
+                    .retreiveAll()
+                    .stream()
+                    .filter(f -> f.getUsername().equals(username))
+                    .findFirst()
+                    .orElse(null);
+        } else {
             logger.info("!!!No such username");
             throw new UsernameNotFoundException("No such username");
         }
-        return account;
     }
 
     public boolean registrate(Account account) throws BookShelfLoginException {
@@ -58,9 +57,17 @@ public class LoginService implements UserDetailsService {
         return true;
     }
 
+    public boolean findByUserName(String username) {
+        for (Account acc : accountRepo.retreiveAll()) {
+            if (acc.getUsername().equals(username))
+                return true;
+        }
+        return false;
+    }
+
     public void removeAccount(Account account) {
-        for(Account acc: accountRepo.retreiveAll()) {
-            if(acc.equals(account)) {
+        for (Account acc : accountRepo.retreiveAll()) {
+            if (acc.equals(account)) {
                 accountRepo.removeItem(acc);
             }
         }

@@ -1,17 +1,17 @@
 package ru.sd.app.config;
 
-//import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-//import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-//import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-//import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
+import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
 
 import javax.sql.DataSource;
 
 @Configuration
 public class DBConfig {
-/*
+
     @Bean
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
@@ -29,5 +29,4 @@ public class DBConfig {
         return new NamedParameterJdbcTemplate(dataSource());
     }
 
- */
 }

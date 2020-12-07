@@ -23,4 +23,5 @@ public class BookToRemove {
                 "size" +
                 " " + size + " \"}";
     }
+
 }

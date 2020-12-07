@@ -15,7 +15,7 @@ public class BookIdProvider implements InitializingBean, DisposableBean, BeanPos
     Logger logger = Logger.getLogger(BookIdProvider.class);
 
     public Integer provideId(Book book) {
-
+        logger.info("Prepare book id");
         return Math.abs(book.hashCode() / 2);
     }
 
