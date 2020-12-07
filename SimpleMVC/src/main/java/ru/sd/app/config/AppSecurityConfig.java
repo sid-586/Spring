@@ -43,7 +43,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         logger.info("Config http security");
         http.headers().frameOptions().disable();
-        http.csrf().ignoringAntMatchers("/console/**");
+        http.csrf().ignoringAntMatchers("/console/**", "/books/**");
         http
                 .authorizeRequests()
                 .antMatchers("/login/registration").not().fullyAuthenticated()

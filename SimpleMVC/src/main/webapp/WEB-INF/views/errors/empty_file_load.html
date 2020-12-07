@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error empty field</title>
+    <style>
+        p {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<h1>Choose correct file to load!</h1>
+<p th:text="${error_message}"></p>
+<br>
+<a href="/SimpleMVC_war_exploded/books/shelf">
+    Back to book shelf page
+</a>
+</body>
+</html>

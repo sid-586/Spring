@@ -26,6 +26,7 @@ public class Account implements UserDetails {
     private String password;
     @NotEmpty
     private String passwordConfirm;
+    private Set<Role> roles;
 
     @Override
     public String toString() {
@@ -34,7 +35,7 @@ public class Account implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return new HashSet<SimpleGrantedAuthority>();
+        return getRoles();
     }
 
     @Override

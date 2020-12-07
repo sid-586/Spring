@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import ru.sd.app.exceptions.BookShelfLoginException;
+import ru.sd.app.exceptions.EmptyFileLoadException;
 
 @Controller
 @ControllerAdvice
@@ -28,4 +29,11 @@ public class ErrorsController {
         return "errors/404";
     }
 
+    @ExceptionHandler(EmptyFileLoadException.class)
+    public String handlerEmptyFileLoadFieldError(Model model,
+                                                 EmptyFileLoadException exception) {
+        logger.info("No such file - ErrorsController");
+        model.addAttribute("error_message", exception.getMessage());
+        return "errors/empty_file_load";
+    }
 }

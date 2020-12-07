@@ -12,7 +12,7 @@
 
         #logout {
             position: absolute;
-            left: 20%;
+            left: 10%;
             top: 15%;
             transform: translate(-50%, -50%);
             navbutton_background_color: fuchsia;
@@ -21,6 +21,13 @@
         #logout:hover {
             border: 2px solid #F0F;
             padding: 1px;
+        }
+
+        #load {
+            position: absolute;
+            left: 40%;
+            top: 15%;
+            transform: translate(-50%, -50%);
         }
 
         #books {
@@ -48,9 +55,15 @@
             color: blue;
             border-bottom-color: darkmagenta;
         }
+
         p {
             color: red;
             font-size: small;
+        }
+
+        p1 {
+            color: darkblue;
+            font-size: medium;
         }
     </style>
 </head>
@@ -116,9 +129,6 @@
                 <td>
                     <input type="submit" value="Remove">
                 </td>
-                <td th:if="${#object}">
-                    <p>There is wrong size</p>
-                </td>
             </tr>
             <td th:if="${#fields.hasErrors('id')}">
                 <p>There is wrong value in the ID field</p>
@@ -163,6 +173,21 @@
 <div id="logout">
     <form method="post" th:action="@{/books/logout}">
         <input type="submit" value="Logout">
+    </form>
+</div>
+<div id="load">
+    <form method="post" th:action="@{/books/upload_files}" enctype="multipart/form-data">
+        <tr>
+            <p1>Upload your file</p1>
+        </tr>
+        <tr>
+            <td>
+                <input type="file" name="file"/>
+            </td>
+            <td>
+                <input type="submit" name="Upload"/>
+            </td>
+        </tr>
     </form>
 </div>
 </body>
