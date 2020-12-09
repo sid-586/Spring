@@ -14,7 +14,6 @@ import ru.sd.web.dto.Book;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Getter
 @Repository

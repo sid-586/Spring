@@ -10,10 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ru.sd.app.services.LoginService;
-import ru.sd.web.dto.Account;
 
 import javax.sql.DataSource;
 
@@ -61,6 +59,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /*
+    /Может, пригодится ещё..
+    /
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         logger.info("Config from loginService");
@@ -68,7 +68,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userDetailsService(loginService)
                 .passwordEncoder(bCryptPasswordEncoder());
     }
-
      */
 
     @Override

@@ -1,6 +1,6 @@
 package ru.sd.app.exceptions;
 
-public class EmptyFileLoadException extends Throwable {
+public class EmptyFileLoadException extends Exception {
     private final String message;
 
     public EmptyFileLoadException(String message) {

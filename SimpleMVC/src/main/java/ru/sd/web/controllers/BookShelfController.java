@@ -8,19 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import ru.sd.app.exceptions.EmptyFileLoadException;
 import ru.sd.app.services.BookService;
 import ru.sd.web.dto.Book;
 import ru.sd.web.dto.BookToFilter;
 import ru.sd.web.dto.BookToRemove;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.*;
 
 @Controller
 @RequestMapping(value = "/books")
@@ -121,37 +114,11 @@ public class BookShelfController {
         bookService.clearFilter();
 
         return "redirect:/login";
+
+    }
+    @PostMapping("/load")
+    public String loadFiles() {
+        return "redirect:/books/load";
     }
 
-    @PostMapping("/upload_files")
-    public String uploadFile(@RequestParam(value = "file", required = false) MultipartFile file) throws Exception, EmptyFileLoadException {
-
-        if (file.isEmpty()) {
-            throw new EmptyFileLoadException("No such file");
-        }
-        String name = file.getOriginalFilename();
-        byte[] fileContent = file.getBytes();
-
-        Path rootPth = Path.of(System.getProperty("catalina.home"));
-        Path dir = rootPth.resolve(rootPth + File.separator +
-                "external_uploads");
-        if (!Files.exists(dir)) {
-            try {
-                logger.info("Try to create directory in " + dir);
-                Files.createDirectory(dir);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        try (OutputStream os =
-                     Files.newOutputStream(Files.createFile(
-                             Path.of(dir + File.separator + name)))) {
-            os.write(fileContent);
-        } catch (IOException ioe) {
-            ioe.printStackTrace();
-        }
-        logger.info("New file was saved at " + dir);
-        return BASE_PAGE;
-    }
 }

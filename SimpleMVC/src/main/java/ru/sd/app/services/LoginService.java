@@ -1,6 +1,5 @@
 package ru.sd.app.services;
 
-import lombok.SneakyThrows;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +9,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.sd.app.exceptions.BookShelfLoginException;
 import ru.sd.web.dto.Account;
-import ru.sd.web.dto.LoginForm;
 
 @Service
 public class LoginService implements UserDetailsService {
