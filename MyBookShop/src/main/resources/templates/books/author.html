@@ -9,9 +9,10 @@
 <!--[if IE 9]>
 <html class="ie9" lang="ru">
 <![endif]-->
-<!--[if gt IE 9]><!--> <html lang="ru"> <!--<![endif]-->
+<!--[if gt IE 9]><!-->
+<html lang="ru" xmlns:th="http://www.w3.org/1999/xhtml"> <!--<![endif]-->
 <head>
-  <title>Тут название страницы написать</title>
+  <title>Book store ?author's page</title>
   <meta name="description" content="Описание страницы">
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
@@ -51,7 +52,8 @@
             <div class="Header-search">
               <div class="search">
                 <form class="form form_search" action="#" method="post" data-searchlimit="20">
-                  <input class="search-input" id="query" name="query" type="text" placeholder="Search over 30 million book titles" value=""/>
+                  <input class="search-input" id="query" name="query" type="text"
+                         th:placeholder="#{searchbar.placeholder}" value=""/>
                   <button class="search-button" type="submit" name="search" id="search">Поиск
                   </button>
                 </form>
@@ -76,7 +78,7 @@
       <div class="wrap">
         <nav class="menuModal" id="navigate">
           <ul class="menu menu_main">
-            <li class="menu-item"><a class="menu-link" href="/index.html">Главная</a>
+            <li class="menu-item"><a class="menu-link" href="/index.html" th:text="#{topbar.main}">Главная</a>
             </li>
             <li class="menu-item"><a class="menu-link" href="/genres/index.html">Жанры</a>
             </li>
@@ -390,15 +392,16 @@
         </div>
         <div class="row-block">
           <ul class="menu menu_vt Footer-menu">
-            <li class="menu-item"><a class="menu-link" href="/index.html">Главная</a>
+            <li class="menu-item"><a class="menu-link" href="/index.html" th:text="#{footbar.main}">Главная</a>
             </li>
-            <li class="menu-item"><a class="menu-link" href="/genres/index.html">Жанры</a>
+            <li class="menu-item"><a class="menu-link" href="/genres/index.html" th:text="#{footbar.genres}">Жанры</a>
             </li>
-            <li class="menu-item"><a class="menu-link" href="/books/recent.html">Новинки</a>
+            <li class="menu-item"><a class="menu-link" href="/books/recent.html" th:text="#{footbar.news}">Новинки</a>
             </li>
-            <li class="menu-item"><a class="menu-link" href="/books/popular.html">Популярное</a>
+            <li class="menu-item"><a class="menu-link" href="/books/popular.html" th:text="#{footbar.popular}">Популярное
+            </a>
             </li>
-            <li class="menu-item"><a class="menu-link" href="/authors/index.html">Авторы</a>
+            <li class="menu-item"><a class="menu-link" href="/authors/index.html" th:text="#{footbar.authors}">Авторы</a>
             </li>
           </ul>
         </div>

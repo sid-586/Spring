@@ -1,9 +1,7 @@
 package ru.sd.MyBookShop.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import ru.sd.MyBookShop.dto.Author;
 import ru.sd.MyBookShop.dto.Book;
 
 import java.sql.ResultSet;
@@ -15,7 +13,6 @@ public class BookService {
 
     private JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public BookService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -69,15 +66,4 @@ public class BookService {
         return new ArrayList<>(bookList);
     }
 
-    public List<Author> getAuthors() {
-
-        return jdbcTemplate
-                .query("SELECT * FROM authors",
-                        (ResultSet rs, int intRow) -> {
-                            Author author = new Author();
-                            author.setId(rs.getInt("id"));
-                            author.setName(rs.getString("author"));
-                            return author;
-                        });
-    }
 }
