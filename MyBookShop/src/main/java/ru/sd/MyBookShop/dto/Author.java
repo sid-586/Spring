@@ -20,5 +20,7 @@ public class Author {
     private Integer id;
     @Column(name = "author")
     private String name;
+    @Column(name = "last_name")
+    private String lastName;
 
 }

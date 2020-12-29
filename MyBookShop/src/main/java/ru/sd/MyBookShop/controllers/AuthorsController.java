@@ -7,11 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.sd.MyBookShop.services.AuthorsService;
-import ru.sd.MyBookShop.services.BookService;
-
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/authors")
@@ -32,4 +27,11 @@ public class AuthorsController {
         logger.info("Get authors page + list of authors");
         return "authors/index";
     }
+
+    @GetMapping("/slug.html")
+    public String getAuthorPersonalData() {
+        logger.info("Author's personal data");
+        return "authors/slug";
+    }
+
 }

@@ -13,4 +13,6 @@ public class GenresController {
         logger.info("getGenresPage");
         return "genres/index";
     }
+
+    
 }

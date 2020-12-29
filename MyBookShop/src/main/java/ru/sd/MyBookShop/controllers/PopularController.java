@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-@RequestMapping("/popular")
+@RequestMapping("/books/popular")
 public class PopularController {
     private final Logger logger = Logger.getLogger(PopularController.class);
 

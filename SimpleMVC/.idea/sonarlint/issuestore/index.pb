@@ -65,13 +65,7 @@ i
 pom.xml,4/4/442292b8a7efeabbe4cc176709b833b1792140ec
 ]
 -src/main/webapp/WEB-INF/views/book_shelf.html,5/a/5aafe1c771a1260966f312d4ab66c64389c5b6e6
-[
-+src/main/java/ru/sd/web/dto/FileToLoad.java,a/2/a21865f923690e377d2e5eb78e57ec8e55bcf10b
-e
-5src/main/java/ru/sd/app/services/FilesRepository.java,b/f/bfe6b54e3f48fb94a4704e211d1abf07efd95339
 \
 ,src/main/webapp/WEB-INF/views/load_page.html,a/e/ae7ef468c120788e627d66e371f8b37a72b3579f
 k
 ;src/main/java/ru/sd/web/controllers/FileLoadController.java,4/1/41f2ee4bc811a5efbf1d22cd913fb5f03ec54b9b
-e
-5src/main/java/ru/sd/app/services/FileLoadService.java,4/0/405c0de0ed2d82ebd6adc5c29b29e9107a214b5b
