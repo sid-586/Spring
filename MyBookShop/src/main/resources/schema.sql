@@ -1,0 +1,18 @@
+DROP TABLE IF EXISTS books, authors;
+
+CREATE TABLE  books(
+id INT AUTO_INCREMENT PRIMARY KEY,
+author_id INT,
+author VARCHAR(250) NOT NULL,
+title VARCHAR(250) NOT NULL,
+priceOld  VARCHAR(20) DEFAULT NULL,
+price VARCHAR(20) DEFAULT NULL
+);
+
+CREATE TABLE authors(
+id INT AUTO_INCREMENT PRIMARY KEY,
+author VARCHAR(250),
+last_name VARCHAR (250),
+first_name VARCHAR (250)
+-- FOREIGN KEY (author) REFERENCES books(author)
+);
