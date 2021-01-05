@@ -39,10 +39,10 @@ public class AuthorsService {
                 .collect(Collectors.toMap(Function.identity(),
                         value -> {
                             parameterSource.addValue("authorL",
-                                    "^" + value + ".*");
+                                    value + "%");
                             return jdbcTemplate
-                                    .query("SELECT * FROM authors WHERE author REGEXP" +
-                                                    " :authorL",
+                                    .query("SELECT * FROM authors WHERE " +
+                                                    "author LIKE :authorL",
                                             parameterSource,
                                             (ResultSet rs, int intRow) -> {
                                                 Author author = new Author();
@@ -51,7 +51,6 @@ public class AuthorsService {
                                                 return author;
                                             });
                         }));
-
         return new TreeMap<>(authorsMap);
     }
 

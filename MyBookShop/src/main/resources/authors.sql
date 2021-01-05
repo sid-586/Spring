@@ -999,6 +999,10 @@ insert into authors (id, first_name, last_name) values (998, 'Galvin', 'Nevill')
 insert into authors (id, first_name, last_name) values (999, 'Olympia', 'Alger');
 insert into authors (id, first_name, last_name) values (1000, 'Truman', 'Pattisson');
 insert into authors (author) select distinct author from books;
-update authors set last_name = ifnull(last_name, substring(author, position(' ', author)));
-update authors set first_name = ifnull(first_name, substring(author, 0, position(' ', author)));
-update authors set author = ifnull(author, concat(concat(last_name, ' '), first_name));
+update authors set last_name = coalesce(last_name, substring(author from ('%#" _%#"%') for '#'));
+update authors set first_name = coalesce(first_name, substring(author from ('^.+[:space:]')));
+update authors set author = coalesce(author, concat(concat(last_name, ' '), first_name));
+-- For h2 database:
+-- update authors set last_name = ifnull(last_name, substring(author, position(' ', author)));
+-- update authors set first_name = ifnull(first_name, substring(author, 0, position(' ', author)));
+-- update authors set author = ifnull(author, concat(concat(last_name, ' '), first_name));

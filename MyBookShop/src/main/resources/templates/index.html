@@ -76,7 +76,7 @@ p.error-browser
                                         src="/assets/img/content/main/cover.png" alt="card.jpg"/></a>
                                     <div class="Card-content">
                                         <strong class="Card-title"><a th:href="@{/books/slug.html}"
-                                                                      th:text="${book.getTitle()}"></a>
+                                                                      th:text="${book.getTitle().toUpperCase()}"></a>
                                         </strong>
                                         <div class="Card-description" th:text="${book.getAuthor()}">
                                         </div>
@@ -152,7 +152,7 @@ p.error-browser
                                 </a>
                                     <div class="Card-content">
                                         <strong class="Card-title"><a th:href="@{/books/slug.html}"
-                                                                      th:text="${book.getTitle()}"></a>
+                                                                      th:text="${book.getTitle().toUpperCase()}"></a>
                                         </strong>
                                         <div class="Card-description" th:text="${book.getAuthor()}">
                                         </div>
