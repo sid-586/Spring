@@ -2,22 +2,26 @@ server:
   port: 8086
 
 spring:
-  h2:
-    console:
-      enabled: true
+  liquibase:
+    enabled: false
+#    change-log: classpath:db/changelog/db.changelog-master.xml
+#  h2:
+#    console:
+#      enabled: true
   datasource:
 #    url: 'jdbc:h2:mem:book_store'
     url: 'jdbc:postgresql://localhost:5432/postgres'
     username: superadmin
     password:
-    data: classpath:data.sql, classpath:authors.sql
+    data: classpath:data.sql
 
-    schema: classpath:schema.sql
+#    schema: classpath:schema.sql
     driver-class-name: org.postgresql.Driver
     initialization-mode: always
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     show-sql: true
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
       ddl-auto: create-drop
   messages:

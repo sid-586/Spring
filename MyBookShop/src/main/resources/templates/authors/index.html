@@ -78,7 +78,7 @@
                         <div class="Authors-letter">
                             <div class="Authors-item" th:each="author : ${kit.getValue()}">
                                 <a th:href="@{/authors/slug.html}">
-                                    [(${author.getName()})]
+                                    [(${author.toString()})]
                                 </a>
                             </div>
                         </div>

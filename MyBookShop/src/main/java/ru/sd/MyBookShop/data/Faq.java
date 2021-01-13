@@ -1,11 +1,11 @@
-package ru.sd.MyBookShop.dto;
+package ru.sd.MyBookShop.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,13 +14,11 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Author {
+@Entity
+public class Faq {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Column(name = "author")
-    private String name;
-    @Column(name = "last_name")
-    private String lastName;
-
+    private int id;
+    private String question;
+    private String answer;
 }

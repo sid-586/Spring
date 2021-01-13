@@ -1,9 +1,11 @@
 package ru.sd.MyBookShop.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
-import ru.sd.MyBookShop.dto.Author;
+import ru.sd.MyBookShop.data.Author;
+import ru.sd.MyBookShop.data.AuthorsRepository;
 
 import java.sql.ResultSet;
 import java.util.List;
@@ -16,10 +18,11 @@ import java.util.stream.IntStream;
 @Service
 public class AuthorsService {
 
-    private NamedParameterJdbcTemplate jdbcTemplate;
+    private AuthorsRepository authorsRepository;
 
-    public AuthorsService(NamedParameterJdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    @Autowired
+    public AuthorsService(AuthorsRepository authorsRepository) {
+        this.authorsRepository = authorsRepository;
     }
 
     public List<String> getAlphabet() {
@@ -32,25 +35,10 @@ public class AuthorsService {
     public Map<String, List<Author>> getAuthorsMap() {
 
         Map<String, List<Author>> authorsMap;
-        MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-
         authorsMap = getAlphabet()
                 .stream()
                 .collect(Collectors.toMap(Function.identity(),
-                        value -> {
-                            parameterSource.addValue("authorL",
-                                    value + "%");
-                            return jdbcTemplate
-                                    .query("SELECT * FROM authors WHERE " +
-                                                    "author LIKE :authorL",
-                                            parameterSource,
-                                            (ResultSet rs, int intRow) -> {
-                                                Author author = new Author();
-                                                author.setId(rs.getInt("id"));
-                                                author.setName(rs.getString("author"));
-                                                return author;
-                                            });
-                        }));
+                        value -> authorsRepository.findAuthorsByLastNameStartsWith(value)));
         return new TreeMap<>(authorsMap);
     }
 

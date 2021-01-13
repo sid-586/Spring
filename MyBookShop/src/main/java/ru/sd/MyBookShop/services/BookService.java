@@ -1,8 +1,12 @@
 package ru.sd.MyBookShop.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import ru.sd.MyBookShop.dto.Book;
+import ru.sd.MyBookShop.data.Author;
+import ru.sd.MyBookShop.data.Book;
+import ru.sd.MyBookShop.data.BookRepository;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -11,59 +15,27 @@ import java.util.List;
 @Service
 public class BookService {
 
-    private JdbcTemplate jdbcTemplate;
+    BookRepository bookRepository;
 
-    public BookService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    @Autowired
+    public BookService(BookRepository bookRepository) {
+        this.bookRepository = bookRepository;
     }
 
     public List<Book> getBookList() {
-        List<Book> bookList = jdbcTemplate
-                .query("SELECT * FROM books",
-                        (ResultSet rs, int intRow) -> {
-                            Book book = new Book();
-                            book.setId(rs.getInt("id"));
-                            book.setAuthor(rs.getString("author"));
-                            book.setTitle(rs.getString("title"));
-                            book.setPriceOld(rs.getString("priceOld"));
-                            book.setPrice(rs.getString("price"));
-                            return book;
-                        });
-        return new ArrayList<>(bookList);
+        return bookRepository.findAll();
     }
 
     //todo
-    //после опредления критериев выборки
+    //после определения критериев выборки
     public List<Book> getRecentBookList() {
-        List<Book> bookList = jdbcTemplate
-                .query("SELECT * FROM books",
-                        (ResultSet rs, int intRow) -> {
-                            Book book = new Book();
-                            book.setId(rs.getInt("id"));
-                            book.setAuthor(rs.getString("author"));
-                            book.setTitle(rs.getString("title"));
-                            book.setPriceOld(rs.getString("priceOld"));
-                            book.setPrice(rs.getString("price"));
-                            return book;
-                        });
-        return new ArrayList<>(bookList);
+        return bookRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     }
 
     //todo
-    //после опредления критериев выборки
+    //после определения критериев выборки
     public List<Book> getPopularBookList() {
-        List<Book> bookList = jdbcTemplate
-                .query("SELECT * FROM books",
-                        (ResultSet rs, int intRow) -> {
-                            Book book = new Book();
-                            book.setId(rs.getInt("id"));
-                            book.setAuthor(rs.getString("author"));
-                            book.setTitle(rs.getString("title"));
-                            book.setPriceOld(rs.getString("priceOld"));
-                            book.setPrice(rs.getString("price"));
-                            return book;
-                        });
-        return new ArrayList<>(bookList);
+        return bookRepository.findBooksByTitleContaining("am");
     }
 
 }

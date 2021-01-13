@@ -1,0 +1,18 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: superadmin
+      comment: change pub_date's type
+      changes:
+        - modifyDataType:
+            tableName: books
+            columnName: pub_date
+            newDataType: date
+
+      rollback:
+        - modifyDataType:
+            tableName: books
+            columnName: pub_date
+            newDataType: timestamp(6)
+
+
