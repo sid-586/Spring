@@ -35,7 +35,7 @@ public class BookService {
     //todo
     //после определения критериев выборки
     public List<Book> getPopularBookList() {
-        return bookRepository.findBooksByTitleContaining("am");
+        return bookRepository.findBooksByTitleContaining("so");
     }
 
 }

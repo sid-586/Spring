@@ -35,10 +35,15 @@ public class AuthorsService {
     public Map<String, List<Author>> getAuthorsMap() {
 
         Map<String, List<Author>> authorsMap;
+        List<Author> authorFullList = authorsRepository.findAll();
         authorsMap = getAlphabet()
                 .stream()
                 .collect(Collectors.toMap(Function.identity(),
-                        value -> authorsRepository.findAuthorsByLastNameStartsWith(value)));
+                        value -> authorFullList
+                                .stream()
+                                .filter(f -> f.getLastName().startsWith(value))
+                                .collect(Collectors.toList())
+                ));
         return new TreeMap<>(authorsMap);
     }
 

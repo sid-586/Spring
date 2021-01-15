@@ -17,7 +17,6 @@ public class Client {
     private String username;
     private String password;
     private String surname;
-    @Column(name = "first_name")
     private String firstName;
     private String contactData;
     private double balance;

@@ -65,7 +65,7 @@ p.error-browser
         <main class="Middle-main">
             <div class="Section">
                 <section class="Section-header" th:replace="~{fragments/books_set_fragment :: middleHeadFragment
-                (heading=${'body.recommended'}, source=${popularBooks})}">
+                (heading=${'body.recommended'}, source=${bookData})}">
                 </section>
                 <section class="Section-header" th:replace="~{fragments/books_set_fragment :: middleHeadFragment
                 (heading=${'body.news'}, source=${recentBooks})}">
