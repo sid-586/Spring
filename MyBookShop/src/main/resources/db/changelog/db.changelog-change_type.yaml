@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 1
-      author: superadmin
+      author: dmitrijsidelnikov
       comment: change pub_date's type
       changes:
         - modifyDataType:

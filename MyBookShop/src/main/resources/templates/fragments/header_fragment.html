@@ -28,7 +28,8 @@
                     </div>
                     <div class="Header-search">
                         <div class="search">
-                            <form class="form form_search" action="#" method="post" data-searchlimit="20">
+                            <form class="form form_search" action="#" method="post" data-searchlimit="20"
+                                  th:object="${searchWordDto}">
                                 <input class="search-input" id="query" name="query" type="text"
                                        th:placeholder="#{searchbar.placeholder}"
                                        placeholder="Search over 30 million book titles"

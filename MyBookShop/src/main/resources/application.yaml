@@ -10,7 +10,7 @@ spring:
 #      enabled: true
   datasource:
 #    url: 'jdbc:h2:mem:book_store'
-    url: 'jdbc:postgresql://localhost:5432/postgres'
+    url: 'jdbc:postgresql://localhost:5432/bookstore'
     username: superadmin
     password:
     data: classpath:data.sql

@@ -1,6 +1,7 @@
 package ru.sd.MyBookShop.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,9 @@ public class AuthorsService {
     public Map<String, List<Author>> getAuthorsMap() {
 
         Map<String, List<Author>> authorsMap;
-        List<Author> authorFullList = authorsRepository.findAll();
+
+        List<Author> authorFullList = authorsRepository.findAll(Sort.by(
+                "lastName"));
         authorsMap = getAlphabet()
                 .stream()
                 .collect(Collectors.toMap(Function.identity(),

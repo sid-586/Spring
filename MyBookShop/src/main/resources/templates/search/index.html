@@ -9,10 +9,9 @@
 <html class="ie9" lang="ru">
 <![endif]-->
 <!--[if gt IE 9]><!-->
-<html lang="ru" xmlns:="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<!--<![endif]-->
+<html lang="ru" xmlns:="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"> <!--<![endif]-->
 <head>
-    <title>Book store - Popular books</title>
+    <title>Search Page</title>
     <meta name="description" content="Описание страницы">
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
@@ -24,12 +23,12 @@
     <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Light.woff2" as="font" crossorigin="anonymous">
     <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-Medium.woff2" as="font" crossorigin="anonymous">
     <link rel="preload" href="/assets/fonts/Montserrat/Montserrat-ExtraBold.woff2" as="font" crossorigin="anonymous">
-    <link rel="stylesheet" href="/assets/css/fonts.min.css?v=45035206">
-    <link rel="stylesheet" href="/assets/css/basic.min.css?v=45035206">
-    <link rel="stylesheet" href="/assets/css/extra.min.css?v=45035206">
+    <link rel="stylesheet" href="/assets/css/fonts.min.css?v=33498857">
+    <link rel="stylesheet" href="/assets/css/basic.min.css?v=33498857">
+    <link rel="stylesheet" href="/assets/css/extra.min.css?v=33498857">
     <!--[if lt IE 9]>
     <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
-    <script defer src="/assets/js/scripts.min.js?v=45035206"></script>
+    <script defer src="/assets/js/scripts.min.js?v=33498857"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
@@ -55,26 +54,41 @@ p.error-browser
 <header
         th:replace="~{fragments/header_fragment :: headFrament
         (itemMain=${''}
-        , itemGenres=${''}
+        , itemGenres=${' menu-item_ACTIVE'}
         , itemRecent=${''}
-        , itemPopular=${' menu-item_ACTIVE'}
+        , itemPopular=${''}
         , itemAuthors=${''})}">
 </header>
-<div class="Middle">
+<div class="Middle Middle_search">
     <div class="wrap">
         <main class="Middle-main">
-            <ul th:replace="~{fragments/breadcrumbs_fragment :: breadcrumbsFragment
-            (parent=${'GC#getGenresPage'}, currentPage=${'body.popular'})}">
-            </ul>
+            <h1 class="Middle-title" th:text="#{topbar.search}">
+            </h1>
             <div class="Section">
-                <div class="Section-header">
-                    <h1 class="Section-title" th:text="#{topbar.popular}">
-                    </h1>
+                <div class="search">
+                    <form class="form form_search" action="#" method="post" data-searchlimit="5">
+                        <input class="search-input" id="querypage" name="querypage" type="text"
+                               th:placeholder="#{searchbar.placeholder}"
+                               placeholder="Search over 30 million book titles"
+                               th:field="${searchWordDto.example}"
+                               value=""/>
+                        <button class="search-button" type="submit" name="searchpage" id="searchpage"
+                                th:text="#{topbar.search}">
+                        </button>
+                    </form>
                 </div>
-                <div class="Cards Cards_refresh">
-                    <div class="Card" th:each="book : ${popularBooks}">
-                        <div class="Card-picture"><a href="#"><img th:src="${book.image}"
-                                                                   alt="card.jpg"/></a>
+            </div>
+            <div class="Section Section_close">
+                <header class="Section-header">
+                    <h2 class="Section-title Middle-searchHeader"
+                        th:text="#{searchResultAmount} + ${searchFullResult.size()}">
+                    </h2>
+                </header>
+                <div class="Cards Cards_search Cards_refresh">
+                    <div class="Card" th:each="book : ${searchResult}">
+                        <div class="Card-picture">
+                            <a href="#">
+                            <img th:src="${book.image}" alt="card.jpg"/></a>
                         </div>
                         <div class="Card-content">
                             <strong class="Card-title"><a href="#" th:text="${book.title}"></a>
@@ -89,9 +103,9 @@ p.error-browser
                     </div>
                     <div class="Cards-footer Cards-footer_center">
                         <a class="btn btn_primary" href="#"
-                           data-refreshshow="popular"
-                           data-refreshoffset="0"
-                           data-refreshlimit="20"
+                           data-refreshshow="search" data-refreshoffset="0"
+                           data-refreshlimit="5"
+                           th:attr="data-refreshquery=${searchWordDto.example}"
                            th:text="#{seeMore}">
                         </a>
                     </div>

@@ -62,15 +62,8 @@ p.error-browser
 <div class="Middle">
     <div class="wrap">
         <main class="Middle-main">
-            <ul class="breadcrumbs">
-                <li class="breadcrumbs-item"><a th:href="${(#mvc.url('MPC#getMainPage').build())}"
-                                                th:text="#{topbar.main}"></a>
-                </li>
-                <li class="breadcrumbs-item"><a th:href="${(#mvc.url('AC#getAuthorsPage').build())}"
-                                                th:text="#{topbar.authors}"></a>
-                </li>
-                <li class="breadcrumbs-item breadcrumbs-item_current"><span>Борис Васильевич Бедный</span>
-                </li>
+            <ul th:replace="~{fragments/breadcrumbs_fragment :: breadcrumbsFragment
+            (parent=${'AC#getAuthorsPage'}, currentPage=${'Заглушка'})}">
             </ul>
             <h1 class="Middle-title">Борис Васильевич Бедный
             </h1>

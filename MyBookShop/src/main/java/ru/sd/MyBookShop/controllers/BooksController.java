@@ -1,9 +1,14 @@
 package ru.sd.MyBookShop.controllers;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.models.auth.In;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import ru.sd.MyBookShop.data.BookPage;
 import ru.sd.MyBookShop.services.BookService;
 
 @Controller
@@ -23,22 +28,19 @@ public class BooksController {
         return "books/slug";
     }
 
+    @GetMapping("/recommended")
+    @ResponseBody
+    public BookPage getNextPageOfRecommendedBooks
+            (@RequestParam(name = "offset") Integer offset,
+             @RequestParam(name = "limit") Integer limit) {
+        logger.info("Get next page of recommended books");
+        return
+                new BookPage(bookService.getPageOfRecommendedBooks(offset, limit).getContent());
+    }
+
+    @ApiOperation("getting author from this book")
     @GetMapping("/author.html")
     public String getAllBooksOfAuthor() {
         return "books/author.html";
     }
-
-//    @GetMapping("/recent")
-//    public String getRecentBooks() {
-//        logger.info("getRecentBooks");
-//        return "books/recent";
-//    }
-//
-//    @GetMapping("/popular")
-//    public String getPopularBooks() {
-//        logger.info("getPopularBooks");
-//        return "books/popular";
-//    }
-
 }
-

@@ -65,13 +65,13 @@ p.error-browser
         <main class="Middle-main">
             <div class="Section">
                 <section class="Section-header" th:replace="~{fragments/books_set_fragment :: middleHeadFragment
-                (heading=${'body.recommended'}, source=${bookData})}">
+                (heading=${'recommended'}, source=${bookData})}">
                 </section>
                 <section class="Section-header" th:replace="~{fragments/books_set_fragment :: middleHeadFragment
-                (heading=${'body.news'}, source=${recentBooks})}">
+                (heading=${'recent'}, source=${recentBooks})}">
                 </section>
                 <section class="Section-header" th:replace="~{fragments/books_set_fragment :: middleHeadFragment
-                (heading=${'body.popular'}, source=${popularBooks})}">
+                (heading=${'popular'}, source=${popularBooks})}">
                 </section>
             </div>
             <h2 class="Middle-title">Книги по тегам

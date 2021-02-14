@@ -6,6 +6,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import ru.sd.MyBookShop.data.*;
 
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 @Configuration
 public class CommandLineRunnerImpl implements CommandLineRunner {
     private final Logger logger = Logger.getLogger(CommandLineRunnerImpl.class);
@@ -28,9 +31,20 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         }
 
         createAuthorByName("Twen", "Mark");
-        createBook("Tom Soyer", "Mark Twen", "600.00 руб.", "450.00 руб.", false);
-        createBook("The Titan", "Theodore Dreiser", "1500.00 руб.", "1000.00 " +
-                "руб.", true);
+        createBook("Tom Sawyer"
+                , "Mark Twain"
+                , 600
+                , 40
+                , 0
+                , new GregorianCalendar(2020, 01, 01).getTime()
+                , "https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Tom_Sawyer_8c_1972_issue_U.S._stamp.jpg/220px-Tom_Sawyer_8c_1972_issue_U.S._stamp.jpg");
+        createBook("The Titan"
+                , "Theodore Dreiser"
+                , 1500
+                , 30
+                , 1,
+                new GregorianCalendar(2021, 01, 01).getTime()
+                , "https://cv6.litres.ru/pub/c/elektronnaya-kniga/cover_415/51089767-theodore-dreiser-the-titan-51089767.jpg");
 
         Book readBook = readBookById(3);
         if (readBook != null) {
@@ -67,8 +81,9 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         deleteClientById(2);
     }
 
-    private void createBook(String title, String authorName, String priceOld,
-                            String price, boolean isBestseller) {
+    private void createBook(String title, String authorName, Integer priceOld,
+                            Integer price, int isBestseller, Date pubDate,
+                            String imageUrl) {
         Book book = new Book();
         book.setTitle(title);
         String lastName = authorName.split(" ", 2)[1];
@@ -84,7 +99,9 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
         book.setAuthor(author);
         book.setPrice(price);
         book.setPriceOld(priceOld);
-        book.setBestseller(isBestseller);
+        book.setIsBestseller(isBestseller);
+        book.setPublicationDate(pubDate);
+        book.setImage(imageUrl);
 
         bookRepository.save(book);
     }
@@ -108,10 +125,13 @@ public class CommandLineRunnerImpl implements CommandLineRunner {
     }
 
     private void createAuthorByName(String lastName, String firstName) {
-        Author author = new Author();
-        author.setLastName(lastName);
-        author.setFirstName(firstName);
-        authorsRepository.save(author);
+        if (authorsRepository.findAuthorByLastNameAndFirstName(lastName,
+                firstName) == null) {
+            Author author = new Author();
+            author.setLastName(lastName);
+            author.setFirstName(firstName);
+            authorsRepository.save(author);
+        }
     }
 
     private Author readAuthorById(int id) {
